@@ -25,6 +25,7 @@ if __name__ == "__main__":
 
 	model = modelCreator.buildModel(vocab, x)
 
-	modelCreator.generateText(model, numpy.reshape(x[0], (1, x.shape[1], x.shape[2])), 50, num_to_char)
+	model.fit(x, y, batch_size=64, epochs=10, verbose=1)
 
-	#model.fit(x, y, batch_size=64, epochs=10, verbose=1)
+	"""numpy.random.random_integers(0, len(x) -1)"""
+	modelCreator.generateText(model, numpy.reshape(x[0], (1, x.shape[1], x.shape[2])), 200, num_to_char)

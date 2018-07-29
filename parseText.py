@@ -11,7 +11,6 @@ def getInfo(path):
 	with open(path, "r") as f:
 		text = f.read()
 
-
 	vocab = set(list(text))
 
 	del text

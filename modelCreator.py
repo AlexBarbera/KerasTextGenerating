@@ -2,6 +2,7 @@ import keras
 from keras.layers import LSTM, Dense, TimeDistributed, Dropout
 from keras.models import Sequential
 import numpy
+from __future__ import print_function
 
 def buildModel(vocab, inputs):
 	model = Sequential()
@@ -28,7 +29,7 @@ def buildModel(vocab, inputs):
 
 def generateText(model, seed, num, int_to_char):
 	x = seed
-	print x	
+
 	for i in xrange(num):
 		res = model.predict(x)
 
@@ -39,5 +40,7 @@ def generateText(model, seed, num, int_to_char):
 
 		res = int_to_char[numpy.argmax(x)]
 		
-		print res
+		print(res, end="", flush=True)
+
+	print("\n\n")
 

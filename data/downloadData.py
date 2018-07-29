@@ -4,7 +4,7 @@ import urllib
 if __name__ == "__main__":
 	url = "http://nrvnqsr.wikia.com/wiki/FSN_Fate_Day_01_(EN)"
 	output = []
-	for x in xrange(3,15):
+	for x in xrange(1,16):
 		html = urllib.urlopen(url)
 		bs = BeautifulSoup(html, "html.parser")
 
