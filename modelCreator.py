@@ -1,8 +1,8 @@
+from __future__ import print_function
 import keras
 from keras.layers import LSTM, Dense, TimeDistributed, Dropout
 from keras.models import Sequential
 import numpy
-from __future__ import print_function
 
 def buildModel(vocab, inputs):
 	model = Sequential()
