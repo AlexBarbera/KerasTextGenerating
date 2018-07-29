@@ -17,7 +17,10 @@ The repository is structured as follows:
 
 ## Parameter options
 ```
-usage: python main.py [-h] [--seq_length SEQ_LENGTH] path
+usage: python main.py [-h] [--seq_length SEQ_LENGTH] [--epochs EPOCHS]
+               [--batch_size BATCH_SIZE] [--verbose VERBOSE]
+               [--gen_length GEN_LENGTH]
+               path
 
 Train a RNN to generate text.
 
@@ -28,6 +31,12 @@ optional arguments:
   -h, --help            show this help message and exit
   --seq_length SEQ_LENGTH
                         Sequence length to train.
+  --epochs EPOCHS       Number of epochs to train.
+  --batch_size BATCH_SIZE
+                        Batch size used in training.
+  --verbose VERBOSE     Verbosity in training.
+  --gen_length GEN_LENGTH
+                        Length of generated string.
 ```
 ## Data
   - *`text.txt`* Example text from the "Fate Stay Night" series.
