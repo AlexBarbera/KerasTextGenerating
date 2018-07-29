@@ -40,6 +40,9 @@ optional arguments:
 ```
 ## Data
   - *`text.txt`* Example text from the "Fate Stay Night" series.
+  - *`hs.txt`* Example text from the "Fate Stay Night - Heaven's Feel" series.
+  - *`ubw.txt`* Example text from the "Fate Stay Night - Unlimited Blade Works" series.
+  - *`full.txt`* Example text from all the "Fate Stay Night" series.
   - *`downloadData.py`* Code used to download `text.txt`, can be modified to download  text from any static html page.
 
 ## Dependencies
