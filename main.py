@@ -1,8 +1,9 @@
 import keras
-import model as modelCreator
+import modelCreator
 import parseText
 import sys
 import argparse
+import numpy
 
 def getArgs(args):
 	output = argparse.ArgumentParser(description='Train a RNN to generate text.')
@@ -24,4 +25,6 @@ if __name__ == "__main__":
 
 	model = modelCreator.buildModel(vocab, x)
 
-	model.fit(x, y, batch_size=64, epochs=10, verbose=1)
+	modelCreator.generateText(model, numpy.reshape(x[0], (1, x.shape[1], x.shape[2])), 50, num_to_char)
+
+	#model.fit(x, y, batch_size=64, epochs=10, verbose=1)

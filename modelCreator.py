@@ -1,6 +1,7 @@
 import keras
 from keras.layers import LSTM, Dense, TimeDistributed, Dropout
 from keras.models import Sequential
+import numpy
 
 def buildModel(vocab, inputs):
 	model = Sequential()
@@ -25,5 +26,18 @@ def buildModel(vocab, inputs):
 
 	return model
 
-def generateText(model):
-	pass
+def generateText(model, seed, num, int_to_char):
+	x = seed
+	print x	
+	for i in xrange(num):
+		res = model.predict(x)
+
+		for i in xrange(x.shape[1]-1):
+			x[0][i][0] = x[0][i+1][0]
+
+		x[0][-1][0] = numpy.argmax(res)
+
+		res = int_to_char[numpy.argmax(x)]
+		
+		print res
+
