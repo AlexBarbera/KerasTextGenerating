@@ -21,13 +21,13 @@ def getInfo(path):
 
 	return vocab, char_to_num, num_to_char
 
-def createDataset(path, char_to_int, seq_length=50):
+def createDataset(path, char_to_int, seq_length):
 	text = ""
 	with open(path, "r") as f:
 		text = f.read()
 	x = []
 	y = []
-	for i in xrange(0, len(text) - len(set(text)), 1):
+	for i in xrange(0, len(text) - seq_length, 1):
 		x.append( [char_to_int[c] for c in text[i:i+seq_length]] ) 
 		y.append( char_to_int[text[i+seq_length]] )
 
