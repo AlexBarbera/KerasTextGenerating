@@ -1,8 +1,8 @@
-from __future__ import print_function
 import keras
 from keras.layers import LSTM, Dense, TimeDistributed, Dropout
 from keras.models import Sequential
 import numpy
+import sys
 
 def buildModel(vocab, inputs):
 	model = Sequential()
@@ -10,15 +10,15 @@ def buildModel(vocab, inputs):
 	model.add(LSTM(512, input_shape=(inputs.shape[1], inputs.shape[2]), return_sequences=True))
 
 	model.add(LSTM(256, return_sequences=True))
-	model.add(Dropout(0.35))
+	model.add(Dropout(0.25))
 
 	model.add(LSTM(128, return_sequences=True))
-	model.add(Dropout(0.45))
+	model.add(Dropout(0.25))
 
 	model.add(LSTM(100))
 	model.add(Dropout(0.25))
 
-	model.add(Dense(80, activation="relu"))
+	#model.add(Dense(80, activation="relu"))
 	model.add(Dropout(0.15))
 
 	model.add(Dense(len(vocab), activation="softmax"))
@@ -28,19 +28,27 @@ def buildModel(vocab, inputs):
 	return model
 
 def generateText(model, seed, num, int_to_char):
+	print "Seed:", "".join([int_to_char[t[0]] for t in seed])
 	x = seed
-
 	for i in xrange(num):
+		x = numpy.reshape(x, (1, len(x), 1))
 		res = model.predict(x)
 
-		for i in xrange(x.shape[1]-1):
-			x[0][i][0] = x[0][i+1][0]
+		m = sorted(res[0], reverse=True)[3]
 
-		x[0][-1][0] = numpy.argmax(res)
+		mask = numpy.where(res[0] >= m, 1, 0)
+		#print m, mask
 
-		res = int_to_char[numpy.argmax(x)]
+		res[0] *= mask
+		index = numpy.random.choice(len(res[0]), 1, p=res[0]/numpy.sum(res))[0]
+		#print "Seed:", "".join([int_to_char[t[0]] for t in x[0]])
+		sys.stdout.write(int_to_char[index])
+		sys.stdout.flush()
+
+		x = [t[0] for t in x[0]]
+		x.append(index)
+		x = numpy.asarray(x[1:])
+
+	print ""
+
 		
-		print(res, end="", flush=True)
-
-	print("\n\n")
-
