@@ -23,7 +23,7 @@ def buildModel(vocab, inputs):
 
 	model.add(Dense(len(vocab), activation="softmax"))
 
-	model.compile("adam", loss="binary_crossentropy", metrics=["accuracy"])
+	model.compile("adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
 	return model
 
