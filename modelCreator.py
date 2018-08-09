@@ -28,7 +28,7 @@ def buildModel(vocab, inputs):
 	return model
 
 def generateText(model, seed, num, int_to_char, args):
-	print seed[0]
+	#print seed[0]
 	print "Seed:", "".join([int_to_char[t[0]] for t in seed[0]]) if args.predict_type == "letter" else " ".join([int_to_char[t[0]] for t in seed[0]])
 	x = seed[0]
 	for i in xrange(num):

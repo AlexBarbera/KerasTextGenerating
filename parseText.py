@@ -2,14 +2,15 @@ import numpy
 from keras.utils import to_categorical
 import re
 
-def getVocab(args, full=False):
+def getVocab(args, to_set=True):
 	text = open(args.path, "r").read()
 
 	vocab = None
 	
 	if args.predict_type == "letter":
-		vocab = set(list(text))
+		vocab = list(text)
 	elif args.predict_type == "word":
+		"""
 		sym = ".,:;()[]\"?!\n"
 		asym = [".",",","\"","(",")","?","!","..."]
 
@@ -17,14 +18,16 @@ def getVocab(args, full=False):
 			text = text.replace(s, " ")
 
 		vocab = filter(None, text.split(" "))
+		"""
 
-		if not full:
-			vocab = set(vocab).union(set(asym))
-		else:
-			vocab += asym
+		vocab = re.split("(\W)", text)
+
 	del text
 
-	return list(vocab)
+	if to_set:
+		vocab = list(set(vocab))
+
+	return vocab
 
 def getInfo(path, args):
 	vocab = []
@@ -44,7 +47,7 @@ def createDataset(path, char_to_int, seq_length, args):
 	text = open(args.path, "r").read()
 
 	if args.predict_type == "word":
-		text = getVocab(args, full=True)
+		text = getVocab(args, False)
 
 	x = []
 	y = []
@@ -53,9 +56,14 @@ def createDataset(path, char_to_int, seq_length, args):
 		x.append( [char_to_int[c] for c in text[i:i+seq_length]] ) 
 		y.append( char_to_int[text[i+seq_length]] )
 
+	x = numpy.reshape(x, (len(x), seq_length, 1))
+
+	if args.normalize_inputs:
+		#x /= float(len(text))
+		pass
+
 	del text
 
-	x = numpy.reshape(x, (len(x), seq_length, 1))
 	y = to_categorical(y)
 
 	print x.shape, y.shape
