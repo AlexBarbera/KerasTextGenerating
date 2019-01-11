@@ -54,20 +54,26 @@ def createDataset(path, char_to_int, seq_length, args):
 
 	for i in xrange(0, len(text) - seq_length, 1):
 		x.append( [char_to_int[c] for c in text[i:i+seq_length]] ) 
-		y.append( char_to_int[text[i+seq_length]] )
+		y.append( [char_to_int[temp] for temp in text[i+seq_length:i+seq_length + args.n] ] )
 
+
+	y = y[:-args.n - 1]#los ultimos n-1 elementos no son ngramas enteros
 	x = numpy.reshape(x, (len(x), seq_length, 1))
 
+	x = x[:-args.n-1]#drop last n-1 por la misma razon
+
 	if args.normalize_inputs:
-		mean = numpy.avg(x)
-		std = numpy.std(x)		
-		x = x/mean - std #  x / float(len(char_to_int))
-		
+		#x = x / float(len(char_to_int))
+		x = (x - numpy.mean(x)) / numpy.std(x)
 
 	del text
 
+	#print y
+
 	y = to_categorical(y)
+	y = numpy.reshape( y, (len(y), args.n * len(char_to_int)) )
 
 	print x.shape, y.shape
+
 
 	return x, y
